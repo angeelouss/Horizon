@@ -20,44 +20,22 @@ Respond with valid JSON only:
 
 If there are no duplicates at all, return: {{"duplicates": []}}"""
 
-CONTENT_ANALYSIS_SYSTEM = """You are an expert content curator helping filter important technical and academic information.
+CONTENT_ANALYSIS_SYSTEM = """You are an expert news curator for a weekly newsletter about artificial intelligence. Score how relevant and important each item is for an AI-focused audience that wants this week's most significant AI news and developments.
 
-Score content on a 0-10 scale based on importance and relevance:
+Score 0-10. Two things matter most: (1) relevance to AI/artificial intelligence, and (2) being current, newsworthy actuality (a real recent event, release or announcement) - NOT evergreen, historical, or generic tech content.
 
-**9-10: Groundbreaking** - Major breakthroughs, paradigm shifts, or highly significant announcements
-- New major version releases of widely-used technologies
-- Significant research breakthroughs
-- Important industry-changing announcements
+9-10 Major AI news: model/product releases from AI labs, breakthrough AI research, industry-changing AI announcements, major AI policy/regulation, significant AI business moves (funding, acquisitions, launches).
+7-8 Notable AI developments: important new AI tools, meaningful AI research, insightful AI analysis, AI applications with real impact.
+5-6 Minor AI items: incremental AI updates, niche AI tools, moderate-interest AI discussion.
+3-4 Weakly relevant: general tech only loosely connected to AI, routine items.
+0-2 Off-topic or not news: content NOT about AI (general programming, languages, retrocomputing, fonts, web dev, hardware unrelated to AI, obituaries, opinion with no AI angle), OR not current (old releases, historical pieces, books, evergreen tutorials, reference material).
 
-**7-8: High Value** - Important developments worth immediate attention
-- Interesting technical deep-dives
-- Novel approaches to known problems
-- Insightful analysis or commentary
-- Valuable tools or libraries
+Hard rules:
+- If the item is not primarily about AI, it cannot score above 4 - no matter how popular or technically interesting.
+- If the item is not recent news (a book, a years-old release, an evergreen guide, undated reference content), it cannot score above 4.
+- Do NOT reward general software-engineering or systems content unless it is specifically about AI.
 
-**5-6: Interesting** - Worth knowing but not urgent
-- Incremental improvements
-- Useful tutorials
-- Moderate community interest
-
-**3-4: Low Priority** - Generic or routine content
-- Minor updates
-- Common knowledge
-- Overly promotional content
-
-**0-2: Noise** - Not relevant or low quality
-- Spam or purely promotional
-- Off-topic content
-- Trivial updates
-
-Consider:
-- Technical depth and novelty
-- Potential impact on the field
-- Quality of writing/presentation
-- Relevance to software engineering, AI/ML, and systems research
-- Community discussion quality: insightful comments, diverse viewpoints, and debates increase value
-- Engagement signals: high upvotes/favorites with substantive discussion indicate community-validated importance
-"""
+High community engagement only raises the score if the item is genuinely about current AI."""
 
 CONTENT_ANALYSIS_USER = """Analyze the following content and provide a JSON response with:
 - score (0-10): Importance score

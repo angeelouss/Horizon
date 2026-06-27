@@ -1,1 +1,127 @@
-{"version":"1.0","ai":{"provider":"gemini","model":"gemini-2.5-flash","api_key_env":"GOOGLE_API_KEY","temperature":0.3,"max_tokens":4096,"throttle_sec":2,"analysis_concurrency":1,"enrichment_concurrency":1,"languages":["en"]},"email":{"enabled":false,"smtp_server":"smtp.example.com","smtp_port":465,"imap_server":"imap.example.com","imap_port":993,"email_address":"noreply@thetomorrowai.com","sender_name":"Tomorrow","subscribe_keyword":"SUBSCRIBE","unsubscribe_keyword":"UNSUBSCRIBE"},"sources":{"hackernews":{"enabled":true,"fetch_top_stories":30,"min_score":100},"reddit":{"enabled":true,"fetch_comments":5,"subreddits":[{"subreddit":"artificial","sort":"hot","fetch_limit":25,"min_score":50}]},"rss":[{"name":"Simon Willison","url":"https://simonwillison.net/atom/everything/","enabled":true,"category":"ai-tools"},{"name":"MIT Technology Review - AI","url":"https://www.technologyreview.com/topic/artificial-intelligence/feed","enabled":true,"category":"ai-news"},{"name":"The Verge - AI","url":"https://www.theverge.com/rss/ai-artificial-intelligence/index.xml","enabled":true,"category":"ai-news"},{"name":"Google - The Keyword (AI)","url":"https://blog.google/technology/ai/rss/","enabled":true,"category":"ai-labs"},{"name":"OpenAI News","url":"https://openai.com/news/rss.xml","enabled":true,"category":"ai-labs"},{"name":"TLDR AI","url":"https://tldr.tech/api/rss/ai","enabled":true,"category":"ai-newsletter"},{"name":"VentureBeat - AI","url":"https://venturebeat.com/category/ai/feed/","enabled":true,"category":"ai-news"},{"name":"Ars Technica - AI","url":"https://arstechnica.com/ai/feed/","enabled":true,"category":"ai-news"},{"name":"Xataka - Inteligencia Artificial","url":"https://www.xataka.com/categoria/inteligencia-artificial/feed","enabled":true,"category":"ai-es"}]},"filtering":{"ai_score_threshold":6.0,"time_window_hours":168},"webhook":{"enabled":false}}
+{
+  "version": "1.0",
+  "ai": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "api_key_env": "GOOGLE_API_KEY",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "throttle_sec": 2,
+    "analysis_concurrency": 1,
+    "enrichment_concurrency": 1,
+    "languages": [
+      "en"
+    ]
+  },
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.example.com",
+    "smtp_port": 465,
+    "imap_server": "imap.example.com",
+    "imap_port": 993,
+    "email_address": "noreply@thetomorrowai.com",
+    "sender_name": "Tomorrow",
+    "subscribe_keyword": "SUBSCRIBE",
+    "unsubscribe_keyword": "UNSUBSCRIBE"
+  },
+  "sources": {
+    "hackernews": {
+      "enabled": true,
+      "fetch_top_stories": 30,
+      "min_score": 100
+    },
+    "reddit": {
+      "enabled": false,
+      "fetch_comments": 5,
+      "subreddits": [
+        {
+          "subreddit": "artificial",
+          "sort": "hot",
+          "fetch_limit": 25,
+          "min_score": 50
+        }
+      ]
+    },
+    "rss": [
+      {
+        "name": "Simon Willison",
+        "url": "https://simonwillison.net/atom/everything/",
+        "enabled": true,
+        "category": "ai-tools"
+      },
+      {
+        "name": "MIT Technology Review - AI",
+        "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "The Verge - AI",
+        "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "Google - The Keyword (AI)",
+        "url": "https://blog.google/technology/ai/rss/",
+        "enabled": true,
+        "category": "ai-labs"
+      },
+      {
+        "name": "OpenAI News",
+        "url": "https://openai.com/news/rss.xml",
+        "enabled": true,
+        "category": "ai-labs"
+      },
+      {
+        "name": "TLDR AI",
+        "url": "https://tldr.tech/api/rss/ai",
+        "enabled": true,
+        "category": "ai-newsletter"
+      },
+      {
+        "name": "VentureBeat - AI",
+        "url": "https://venturebeat.com/category/ai/feed/",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "Ars Technica - AI",
+        "url": "https://arstechnica.com/ai/feed/",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "Xataka - Inteligencia Artificial",
+        "url": "https://www.xataka.com/categoria/inteligencia-artificial/rss2.xml",
+        "enabled": true,
+        "category": "ai-es"
+      },
+      {
+        "name": "TechCrunch - AI",
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "Hugging Face Blog",
+        "url": "https://huggingface.co/blog/feed.xml",
+        "enabled": true,
+        "category": "ai-labs"
+      },
+      {
+        "name": "Google DeepMind Blog",
+        "url": "https://deepmind.google/blog/rss.xml",
+        "enabled": true,
+        "category": "ai-labs"
+      }
+    ]
+  },
+  "filtering": {
+    "ai_score_threshold": 6.0,
+    "time_window_hours": 168
+  },
+  "webhook": {
+    "enabled": false
+  }
+}

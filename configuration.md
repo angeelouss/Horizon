@@ -123,6 +123,26 @@ Available models: `MiniMax-M3`, `MiniMax-M2.7`, `MiniMax-M2.7-highspeed`
 
 Use the [DashScope compatible-mode](https://help.aliyun.com/zh/dashscope/developer-reference/use-dashscope-by-calling-openai-api) endpoint. Set `DASHSCOPE_API_KEY` in your `.env`. Optional: set `base_url` to override the default `https://dashscope.aliyuncs.com/compatible-mode/v1`.
 
+**Ollama**:
+
+```json
+{
+  "ai": {
+    "provider": "ollama",
+    "model": "llama3.1",
+    "api_key_env": "",
+    "base_url": "http://192.168.1.10:11434",
+    "throttle_sec": 0
+  }
+}
+```
+
+Omit `base_url` to use the default `http://localhost:11434/v1`.
+For remote Ollama servers, set `ai.base_url` in `data/config.json` or set
+`HORIZON_OLLAMA_BASE_URL` in `.env`. `OLLAMA_BASE_URL` and `OLLAMA_HOST` are
+also recognized. If the value omits `/v1`, Horizon appends it automatically
+for Ollama's OpenAI-compatible endpoint.
+
 ### AI throttling
 
 If your model has a strict per-minute request cap, you can slow the scorer down in `data/config.json`:
@@ -186,13 +206,15 @@ All sources are configured under the top-level `sources` key in `config.json`.
       {
         "type": "user_events",
         "username": "gvanrossum",
-        "enabled": true
+        "enabled": true,
+        "category": "oss"
       },
       {
         "type": "repo_releases",
         "owner": "python",
         "repo": "cpython",
-        "enabled": true
+        "enabled": true,
+        "category": "oss"
       }
     ]
   }
@@ -207,7 +229,8 @@ All sources are configured under the top-level `sources` key in `config.json`.
     "hackernews": {
       "enabled": true,
       "fetch_top_stories": 30,
-      "min_score": 100
+      "min_score": 100,
+      "category": "tech"
     }
   }
 }
@@ -232,6 +255,8 @@ All sources are configured under the top-level `sources` key in `config.json`.
 
 ### Reddit
 
+Reddit scraping is free and does not require API keys. Subreddit posts and comments prefer `old.reddit.com`; JSON and RSS endpoints are used as fallbacks when needed.
+
 ```json
 {
   "sources": {
@@ -243,14 +268,16 @@ All sources are configured under the top-level `sources` key in `config.json`.
           "subreddit": "MachineLearning",
           "sort": "hot",
           "fetch_limit": 25,
-          "min_score": 10
+          "min_score": 10,
+          "category": "ai-ml"
         }
       ],
       "users": [
         {
           "username": "spez",
           "sort": "new",
-          "fetch_limit": 10
+          "fetch_limit": 10,
+          "category": "social"
         }
       ]
     }
@@ -271,7 +298,8 @@ Telegram scraping uses the public web preview at `https://t.me/s/<channel>`, so 
         {
           "channel": "zaihuapd",
           "enabled": true,
-          "fetch_limit": 20
+          "fetch_limit": 20,
+          "category": "ai-news"
         }
       ]
     }
@@ -283,6 +311,7 @@ Telegram scraping uses the public web preview at `https://t.me/s/<channel>`, so 
 - `channels` — list of public Telegram channels to monitor
 - `channel` — Telegram channel username only, without `@` or the full `https://t.me/` URL
 - `fetch_limit` — maximum number of recent messages to inspect per channel per run (default: `20`)
+- `category` — optional tag for balanced digest grouping (e.g., `"ai-news"`, `"finance"`)
 
 ### Twitter
 
@@ -295,6 +324,7 @@ Requires an [Apify](https://apify.com) account. Set `APIFY_TOKEN` in your `.env`
       "enabled": true,
       "users": ["karpathy", "ylecun"],
       "fetch_limit": 10,
+      "category": "social",
       "fetch_reply_text": false,
       "max_replies_per_tweet": 3,
       "max_tweets_to_expand": 10,
@@ -306,6 +336,7 @@ Requires an [Apify](https://apify.com) account. Set `APIFY_TOKEN` in your `.env`
 
 - `users` — Twitter screen names to monitor, without the `@` prefix
 - `fetch_limit` — maximum tweets to fetch per run (across all users combined; minimum 100 due to actor constraint)
+- `category` — optional tag for balanced digest grouping (applies to all tweets from this source)
 - `fetch_reply_text` — when `true`, fetch actual reply bodies for important tweets and append them under `--- Top Comments ---` so the AI can factor in community discussion. Disabled by default.
 - `max_replies_per_tweet` — maximum reply lines to append per tweet (default: 3)
 - `max_tweets_to_expand` — cap on how many tweets get reply expansion per run, to control Apify credit usage (default: 10)
@@ -372,7 +403,8 @@ Pulls top star-gain repositories from the [OSS Insight](https://ossinsight.io) p
       "languages": ["All", "Python", "TypeScript"],
       "keywords": [],
       "min_stars": 10,
-      "max_items": 30
+      "max_items": 30,
+      "category": "oss-trending"
     }
   }
 }
@@ -383,6 +415,7 @@ Pulls top star-gain repositories from the [OSS Insight](https://ossinsight.io) p
 - `keywords` — optional case-insensitive substrings matched against `description`, `collection_names`, and `repo_name`. Only repos containing at least one keyword pass through. Leave empty to ingest everything trending.
 - `min_stars` — drop repos with fewer than this many stars gained in the period.
 - `max_items` — final cap after merging and sorting by `stars_gained` descending.
+- `category` — optional tag for balanced digest grouping (e.g., `"oss-trending"`)
 
 No API key is required.
 
@@ -400,13 +433,54 @@ Content is scored 0-10:
 {
   "filtering": {
     "ai_score_threshold": 7.0,
-    "time_window_hours": 24
+    "time_window_hours": 24,
+    "max_items": 20,
+    "category_groups": {
+      "ai": {
+        "name": "AI / Machine Learning",
+        "limit": 5,
+        "categories": ["ai-news", "ai-tools", "machine-learning", "llm"]
+      },
+      "finance": {
+        "name": "Finance",
+        "limit": 5,
+        "categories": ["finance", "equities", "crypto"]
+      }
+    },
+    "default_group": "other",
+    "default_group_limit": 3
   }
 }
 ```
 
 - `ai_score_threshold`: Only include content scoring >= this value
 - `time_window_hours`: Fetch content from last N hours
+- `max_items`: Optional final cap after all group limits are applied
+- `category_groups`: Optional map of quota groups. Each group requires a positive
+  `limit` and a non-empty `categories` list. Items within each group are kept by
+  AI score, highest first.
+- `category_groups.*.name`: Optional display name used in run logs
+- `default_group`: Group key for items whose category does not match any
+  configured group. Default is `other`.
+- `default_group_limit`: Optional positive limit for unmatched items. If omitted,
+  unmatched items are unlimited except for `max_items`.
+
+Balanced digest filtering runs after AI score threshold filtering and topic
+deduplication, but before enrichment. This reduces enrichment calls to only the
+items that can appear in the final digest.
+
+Group matching uses the source category stored in `ContentItem.metadata.category`.
+All source types support a `category` field: `sources.rss[].category`,
+`sources.github[].category`, `sources.hackernews.category`,
+`sources.reddit.subreddits[].category`, `sources.reddit.users[].category`,
+`sources.telegram.channels[].category`, `sources.twitter.category`,
+`sources.openbb.watchlists[].category`, `sources.ossinsight.category`,
+`sources.gdelt.category`, and `sources.google_news.category`.
+Sources without a category set enter the default group.
+
+If the same category appears in multiple groups, Horizon logs a warning and uses
+the first group in configuration order. Omitting both `category_groups` and
+`max_items` preserves the previous filtering behavior.
 
 ## Environment Variable Substitution
 

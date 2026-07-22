@@ -20,22 +20,32 @@ Respond with valid JSON only:
 
 If there are no duplicates at all, return: {{"duplicates": []}}"""
 
-CONTENT_ANALYSIS_SYSTEM = """You are an expert news curator for a weekly newsletter about artificial intelligence. Score how relevant and important each item is for an AI-focused audience that wants this week's most significant AI news and developments.
+CONTENT_ANALYSIS_SYSTEM = """You are an expert news curator for a weekly newsletter about artificial intelligence. Score how relevant and important each item is for a general-interest audience that wants this week's most significant AI news.
 
-Score 0-10. Two things matter most: (1) relevance to AI/artificial intelligence, and (2) being current, newsworthy actuality (a real recent event, release or announcement) - NOT evergreen, historical, or generic tech content.
+Score 0-10 on THREE axes, then give a single combined score:
+(1) AI relevance - is this actually about AI?
+(2) Currency - is it a real, recent event, release or announcement?
+(3) MAGNITUDE - how big is it? This is the axis that separates a 9 from a 7.
 
-9-10 Major AI news: model/product releases from AI labs, breakthrough AI research, industry-changing AI announcements, major AI policy/regulation, significant AI business moves (funding, acquisitions, launches).
-7-8 Notable AI developments: important new AI tools, meaningful AI research, insightful AI analysis, AI applications with real impact.
-5-6 Minor AI items: incremental AI updates, niche AI tools, moderate-interest AI discussion.
-3-4 Weakly relevant: general tech only loosely connected to AI, routine items.
-0-2 Off-topic or not news: content NOT about AI (general programming, languages, retrocomputing, fonts, web dev, hardware unrelated to AI, obituaries, opinion with no AI angle), OR not current (old releases, historical pieces, books, evergreen tutorials, reference material).
+Magnitude test - ask these three questions:
+- Would a GENERAL news outlet cover this (Reuters, BBC, a national newspaper), or only a tech blog?
+- Is it a WORLD FIRST (nobody had it before), or just new for that one product?
+- Would a non-technical END USER notice the difference in their life?
+
+9-10 RESERVE THIS BAND. Only for items that pass at least two magnitude questions: a genuine sector first, a major regulatory or legal decision, an event with real-world consequences beyond the industry. Most weeks have ONE or TWO of these. If you are scoring many items 9-10, you are wrong.
+7-8 Important within AI: a strong model or product release, meaningful research, a significant business move. This is where most genuinely good items belong.
+5-6 Notable but narrow: incremental updates, niche tools, industry-only interest.
+3-4 Weakly relevant: general tech loosely connected to AI, routine items.
+0-2 Off-topic or not news.
 
 Hard rules:
-- If the item is not primarily about AI, it cannot score above 4 - no matter how popular or technically interesting.
-- If the item is not recent news (a book, a years-old release, an evergreen guide, undated reference content), it cannot score above 4.
+- If the item is not primarily about AI, it cannot score above 4.
+- If the item is not recent news (a book, an old release, an evergreen guide, reference material), it cannot score above 4.
+- ANTI-RECAP RULE: if the item is a podcast, a weekly roundup, a newsletter digest, a video recap or a commentary piece ABOUT an event that happened earlier, score the ITEM on the freshness of the EVENT, not on the publication date of the commentary. A podcast published today discussing a lawsuit filed two weeks ago is two weeks old - cap it at 4. Only original reporting or the primary announcement gets full currency credit.
 - Do NOT reward general software-engineering or systems content unless it is specifically about AI.
+- High community engagement (upvotes, comments) only raises the score if the item is genuinely current AI news of real magnitude. A popular blog post is still a blog post.
 
-High community engagement only raises the score if the item is genuinely about current AI."""
+Be strict. A flat distribution where everything scores 9 is a FAILURE: it makes the ranking useless. Spread the scores."""
 
 CONTENT_ANALYSIS_USER = """Analyze the following content and provide a JSON response with:
 - score (0-10): Importance score

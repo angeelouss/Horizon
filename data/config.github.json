@@ -27,7 +27,7 @@
   "sources": {
     "hackernews": {
       "enabled": true,
-      "fetch_top_stories": 30,
+      "fetch_top_stories": 60,
       "min_score": 100
     },
     "reddit": {
@@ -114,6 +114,24 @@
         "url": "https://deepmind.google/blog/rss.xml",
         "enabled": true,
         "category": "ai-labs"
+      },
+      {
+        "name": "Techmeme",
+        "url": "https://www.techmeme.com/feed.xml",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "SCMP - Tech",
+        "url": "https://www.scmp.com/rss/36/feed",
+        "enabled": true,
+        "category": "ai-news"
+      },
+      {
+        "name": "The Decoder",
+        "url": "https://the-decoder.com/feed/",
+        "enabled": true,
+        "category": "ai-news"
       }
     ]
   },

@@ -1,9 +1,9 @@
 name: Daily Horizon Summary
 
 on:
-  # schedule desactivado a proposito (la newsletter no tiene dia fijo; se lanza a mano):
-  #   - cron: '0 22 * * *'
-  workflow_dispatch:      # Allow manual trigger
+  schedule:
+    - cron: '0 6 * * 0'   # domingo 08:00 España (06:00 UTC)
+  workflow_dispatch:
 
 jobs:
   daily-summary:

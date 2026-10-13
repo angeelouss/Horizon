@@ -154,13 +154,18 @@ class AnthropicClient(AIClient):
         temperature = self.temperature if temperature is None else temperature
         max_tokens = self.max_tokens if max_tokens is None else max_tokens
 
-        message = await self.client.messages.create(
-            model=self.model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            system=system,
-            messages=[{"role": "user", "content": user}]
-        )
+        request = {
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "system": system,
+            "messages": [{"role": "user", "content": user}],
+        }
+        # Claude 5.x (p. ej. claude-haiku-5-5) devuelve 400 si temperature != 1:
+        # en esos modelos no se envía y el comportamiento se guía con el prompt.
+        if self._supports_temperature(self.model):
+            request["temperature"] = temperature
+
+        message = await self.client.messages.create(**request)
         usage = getattr(message, "usage", None)
         if usage is not None:
             record_usage(
@@ -168,7 +173,18 @@ class AnthropicClient(AIClient):
                 input_tokens=getattr(usage, "input_tokens", 0),
                 output_tokens=getattr(usage, "output_tokens", 0),
             )
-        return message.content[0].text
+        # Con thinking adaptativo la respuesta puede empezar por bloques
+        # "thinking": se une solo el texto, buscando por tipo y no por posición.
+        return "".join(
+            getattr(block, "text", "")
+            for block in message.content
+            if getattr(block, "type", None) == "text"
+        )
+
+    @staticmethod
+    def _supports_temperature(model: str) -> bool:
+        """Claude 5.x models reject custom temperature values."""
+        return re.match(r"^claude-[a-z]+-5", (model or "").lower()) is None
 
 
 class OpenAIClient(AIClient):

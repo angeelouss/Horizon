@@ -2,7 +2,9 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    - cron: '0 6 * * 0'   # domingo 08:00 España (06:00 UTC)
+    # GitHub retrasa los crons de este fork 4,5-6 h (sep-oct 2026). Se programa de madrugada
+    # y fuera del minuto en punto para que el briefing llegue hacia las 10:00 España.
+    - cron: '37 2 * * 0'   # domingo 02:37 UTC (03:37 España invierno / 04:37 verano) + retraso de GitHub
   workflow_dispatch:
 
 jobs:

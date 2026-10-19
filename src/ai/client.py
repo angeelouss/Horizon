@@ -10,9 +10,12 @@ from google import genai
 from google.genai import types
 
 
+import logging
+
 from ..models import AIConfig, AIProvider, AI_PROVIDER_DEFAULTS
-from rich import print as rich_print
 from .tokens import record_usage
+
+logger = logging.getLogger(__name__)
 
 
 _ENV_VAR_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
@@ -112,7 +115,7 @@ class AIClient(ABC):
 
 
 class AnthropicClient(AIClient):
-    """Client for Anthropic Claude models."""
+    """Client for Anthropic-compatible models."""
 
     def __init__(self, config: AIConfig):
         """Initialize Anthropic client.
@@ -169,7 +172,7 @@ class AnthropicClient(AIClient):
         usage = getattr(message, "usage", None)
         if usage is not None:
             record_usage(
-                "anthropic",
+                self.config.provider.value,
                 input_tokens=getattr(usage, "input_tokens", 0),
                 output_tokens=getattr(usage, "output_tokens", 0),
             )
@@ -546,9 +549,18 @@ class GeminiClient(AIClient):
         return response.text
 
 
+def _uses_anthropic_compatible_api(config: AIConfig) -> bool:
+    """Return whether MiniMax is configured for its Anthropic-compatible API."""
+    base_url = (config.base_url or "").rstrip("/")
+    return config.provider == AIProvider.MINIMAX and base_url.endswith("/anthropic")
+
+
 def _create_single_client(config: AIConfig) -> AIClient:
     """Create a single AI client instance."""
-    if config.provider == AIProvider.ANTHROPIC:
+    if (
+        config.provider == AIProvider.ANTHROPIC
+        or _uses_anthropic_compatible_api(config)
+    ):
         return AnthropicClient(config)
     elif config.provider == AIProvider.AZURE:
         return AzureOpenAIClient(config)
@@ -617,9 +629,9 @@ class ChainedAIClient(AIClient):
                     raise
                 last_error = exc
                 if i < len(self.configs) - 1:
-                    rich_print(
-                        f"\n[yellow]Provider {self.configs[i].provider.value} failed ({exc}), "
-                        f"falling back to {self.configs[i + 1].provider.value}...[/yellow]"
+                    logger.warning(
+                        "Provider %s failed (%s), falling back to %s...",
+                        self.configs[i].provider.value, exc, self.configs[i + 1].provider.value,
                     )
         raise RuntimeError(f"All providers failed. Last error: {last_error}")
 

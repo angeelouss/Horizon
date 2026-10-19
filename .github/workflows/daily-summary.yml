@@ -2,7 +2,7 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    # GitHub retrasa los crons de este fork 4,5-6 h (sep-oct 2026). Se programa de madrugada
+    # GitHub retrasa los crons de este repo 4,5-6 h (sep-oct 2026). Se programa de madrugada
     # y fuera del minuto en punto para que el briefing llegue hacia las 10:00 España.
     - cron: '37 2 * * 0'   # domingo 02:37 UTC (03:37 España invierno / 04:37 verano) + retraso de GitHub
   workflow_dispatch:
@@ -24,12 +24,29 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.26"
 
       - name: Install dependencies
         run: uv sync
 
       - name: Prepare GitHub Actions config
         run: cp data/config.github.json data/config.json
+
+      - name: Restore previous briefings for history search
+        # history_search (BM25) lee data/summaries/horizon-AAAA-MM-DD-*.md. En Actions esa carpeta
+        # empieza vacía, así que se recuperan los briefings publicados en gh-pages.
+        run: |
+          mkdir -p data/summaries
+          if git fetch --depth 1 origin gh-pages; then
+            for f in $(git ls-tree --name-only FETCH_HEAD _posts/ | grep -E 'summary-en\.md$'); do
+              d=$(basename "$f" | cut -c1-10)
+              git show "FETCH_HEAD:$f" > "data/summaries/horizon-$d-en.md"
+            done
+            ls data/summaries | tail -5
+          else
+            echo "Sin rama gh-pages: history_search irá sin historial"
+          fi
 
       - name: Run Horizon
         env:

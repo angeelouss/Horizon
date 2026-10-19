@@ -1,5 +1,4 @@
 {
-  "version": "1.0",
   "ai": {
     "provider": "anthropic",
     "model": "claude-haiku-5-5",
@@ -13,22 +12,22 @@
       "en"
     ]
   },
-  "email": {
-    "enabled": false,
-    "smtp_server": "smtp.example.com",
-    "smtp_port": 465,
-    "imap_server": "imap.example.com",
-    "imap_port": 993,
-    "email_address": "noreply@thetomorrowai.com",
-    "sender_name": "Tomorrow",
-    "subscribe_keyword": "SUBSCRIBE",
-    "unsubscribe_keyword": "UNSUBSCRIBE"
+  "processing": {
+    "profiles_dir": "profiles",
+    "default_profile": "ai-news",
+    "profile_settings": {
+      "ai-news": {
+        "threshold": 6.0,
+        "topic_dedup": true
+      }
+    }
   },
   "sources": {
     "hackernews": {
       "enabled": true,
       "fetch_top_stories": 60,
-      "min_score": 100
+      "min_score": 100,
+      "profile": "ai-news"
     },
     "reddit": {
       "enabled": false,
@@ -38,7 +37,8 @@
           "subreddit": "artificial",
           "sort": "hot",
           "fetch_limit": 25,
-          "min_score": 50
+          "min_score": 50,
+          "profile": "ai-news"
         }
       ]
     },
@@ -47,97 +47,120 @@
         "name": "Simon Willison",
         "url": "https://simonwillison.net/atom/everything/",
         "enabled": true,
-        "category": "ai-tools"
+        "category": "ai-tools",
+        "profile": "ai-news"
       },
       {
         "name": "MIT Technology Review - AI",
         "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "The Verge - AI",
         "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "Google - The Keyword (AI)",
         "url": "https://blog.google/technology/ai/rss/",
         "enabled": true,
-        "category": "ai-labs"
+        "category": "ai-labs",
+        "profile": "ai-news"
       },
       {
         "name": "OpenAI News",
         "url": "https://openai.com/news/rss.xml",
         "enabled": true,
-        "category": "ai-labs"
+        "category": "ai-labs",
+        "profile": "ai-news"
       },
       {
         "name": "TLDR AI",
         "url": "https://tldr.tech/api/rss/ai",
         "enabled": true,
-        "category": "ai-newsletter"
+        "category": "ai-newsletter",
+        "profile": "ai-news"
       },
       {
         "name": "VentureBeat - AI",
         "url": "https://venturebeat.com/category/ai/feed/",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "Ars Technica - AI",
         "url": "https://arstechnica.com/ai/feed/",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "Xataka - Inteligencia Artificial",
         "url": "https://www.xataka.com/categoria/inteligencia-artificial/rss2.xml",
         "enabled": true,
-        "category": "ai-es"
+        "category": "ai-es",
+        "profile": "ai-news"
       },
       {
         "name": "TechCrunch - AI",
         "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "Hugging Face Blog",
         "url": "https://huggingface.co/blog/feed.xml",
         "enabled": true,
-        "category": "ai-labs"
+        "category": "ai-labs",
+        "profile": "ai-news"
       },
       {
         "name": "Google DeepMind Blog",
         "url": "https://deepmind.google/blog/rss.xml",
         "enabled": true,
-        "category": "ai-labs"
+        "category": "ai-labs",
+        "profile": "ai-news"
       },
       {
         "name": "Techmeme",
         "url": "https://www.techmeme.com/feed.xml",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "SCMP - Tech",
         "url": "https://www.scmp.com/rss/36/feed",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       },
       {
         "name": "The Decoder",
         "url": "https://the-decoder.com/feed/",
         "enabled": true,
-        "category": "ai-news"
+        "category": "ai-news",
+        "profile": "ai-news"
       }
     ]
   },
-  "filtering": {
-    "ai_score_threshold": 6.0,
+  "collection": {
     "time_window_hours": 168
+  },
+  "digest": {
+    "max_items": null,
+    "profile_order": [
+      "ai-news"
+    ],
+    "category_groups": {},
+    "default_group": "other",
+    "default_group_limit": null
   },
   "webhook": {
     "enabled": false

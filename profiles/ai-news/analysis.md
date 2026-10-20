@@ -14,8 +14,9 @@ Magnitude test - ask these three questions:
 
 # Scoring rubric
 
-- **9-10: RESERVE THIS BAND.** Only for items that pass at least two magnitude questions: a genuine sector first, a major regulatory or legal decision, an event with real-world consequences beyond the industry. Most weeks have ONE or TWO of these. If you are scoring many items 9-10, you are wrong.
-- **7-8:** Important within AI: a strong model or product release, meaningful research, a significant business move. This is where most genuinely good items belong.
+- **9-10:** Exceptional. A genuine sector first or an event with real-world consequences far beyond the AI industry (it passes all three magnitude questions). Most weeks have zero or one.
+- **8:** The biggest AI stories of the week. It passes at least two magnitude questions. Typical 8s: a regulator opening an investigation into or sanctioning a major AI lab; a new frontier model from a leading lab; a major AI lab disclosing its own data with real-world implications (incidents, safety failures, employment effects); a serious security incident caused by or involving AI agents; a law or court ruling that changes how AI can be built or used; a deal, funding round or acquisition above $5B. A typical week has three to six 8s.
+- **7:** Important within AI: a strong model or product release, meaningful research, a significant business move, notable open-weight releases. This is where most genuinely good items belong.
 - **5-6:** Notable but narrow: incremental updates, niche tools, industry-only interest.
 - **3-4:** Weakly relevant: general tech loosely connected to AI, routine items.
 - **0-2:** Off-topic or not news.
@@ -29,6 +30,6 @@ Hard rules:
 - Do NOT reward general software-engineering or systems content unless it is specifically about AI.
 - High community engagement (upvotes, comments) only raises the score if the item is genuinely current AI news of real magnitude. A popular blog post is still a blog post.
 
-Be strict. A flat distribution where everything scores 9 is a FAILURE: it makes the ranking useless. Spread the scores.
+Use the whole scale. Judge magnitude from what the item reports (actors, action, scale), even if the excerpt is short: a short RSS excerpt is not a reason to lower the score of a big story. A flat distribution is a FAILURE in both directions: everything at 9 makes the ranking useless, and everything at 6-7 makes it useless too. The top stories of the week must stand out.
 
 Use three to five specific topic tags.

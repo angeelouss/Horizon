@@ -65,8 +65,8 @@
         "profile": "ai-news"
       },
       {
-        "name": "Google - The Keyword (AI)",
-        "url": "https://blog.google/technology/ai/rss/",
+        "name": "Google Blog - Innovation & AI",
+        "url": "https://blog.google/innovation-and-ai/rss/",
         "enabled": true,
         "category": "ai-labs",
         "profile": "ai-news"
@@ -76,20 +76,6 @@
         "url": "https://openai.com/news/rss.xml",
         "enabled": true,
         "category": "ai-labs",
-        "profile": "ai-news"
-      },
-      {
-        "name": "TLDR AI",
-        "url": "https://tldr.tech/api/rss/ai",
-        "enabled": true,
-        "category": "ai-newsletter",
-        "profile": "ai-news"
-      },
-      {
-        "name": "VentureBeat - AI",
-        "url": "https://venturebeat.com/category/ai/feed/",
-        "enabled": true,
-        "category": "ai-news",
         "profile": "ai-news"
       },
       {

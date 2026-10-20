@@ -62,7 +62,8 @@
         "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
         "enabled": true,
         "category": "ai-news",
-        "profile": "ai-news"
+        "profile": "ai-news",
+        "content_extractor": "trafilatura"
       },
       {
         "name": "Google Blog - Innovation & AI",
@@ -83,7 +84,8 @@
         "url": "https://arstechnica.com/ai/feed/",
         "enabled": true,
         "category": "ai-news",
-        "profile": "ai-news"
+        "profile": "ai-news",
+        "content_extractor": "trafilatura"
       },
       {
         "name": "Xataka - Inteligencia Artificial",
@@ -97,7 +99,8 @@
         "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
         "enabled": true,
         "category": "ai-news",
-        "profile": "ai-news"
+        "profile": "ai-news",
+        "content_extractor": "trafilatura"
       },
       {
         "name": "Hugging Face Blog",
@@ -132,7 +135,8 @@
         "url": "https://the-decoder.com/feed/",
         "enabled": true,
         "category": "ai-news",
-        "profile": "ai-news"
+        "profile": "ai-news",
+        "content_extractor": "trafilatura"
       }
     ]
   },

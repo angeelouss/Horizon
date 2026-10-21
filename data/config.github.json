@@ -17,7 +17,7 @@
     "default_profile": "ai-news",
     "profile_settings": {
       "ai-news": {
-        "threshold": 6.0,
+        "threshold": 6.5,
         "topic_dedup": true
       }
     }
